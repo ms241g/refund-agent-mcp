@@ -29,6 +29,7 @@ def setup_stripe_test_environment(customer_email):
     """
     try:
         # 1. Create a customer
+        print("Creating customer...")
         payment_method = stripe.PaymentMethod.retrieve("pm_card_visa")
         customers = stripe.Customer.list(email=customer_email)
         if customers.data:
@@ -52,8 +53,8 @@ def setup_stripe_test_environment(customer_email):
         # Create a price for the product
         price = stripe.Price.create(
             product=product.id,
-            unit_amount=1000,  # $10.00
-            currency="gbp",
+            unit_amount=100,  # $10.00
+            currency="usd",
         )
         print(f"Created price: {price.id}")
 

@@ -26,7 +26,7 @@ class ProposedRefund(BaseModel):
     """A proposed refund."""
 
     payment_amount: int = Field(
-        ..., description="The payment amount to be refunded in pounds."
+        ..., description="The payment amount to be refunded in dollars."
     )
     description: str = Field(..., description="The description of the refund.")
     recipient_email: str = Field(
@@ -34,7 +34,7 @@ class ProposedRefund(BaseModel):
     )
 
     def __str__(self):
-        return f"Payment amount: £{self.payment_amount}\nDescription: {self.description}\nRecipient email: {self.recipient_email}"
+        return f"Payment amount: ${self.payment_amount}\nDescription: {self.description}\nRecipient email: {self.recipient_email}"
 
 
 class RefundDecision(BaseModel):
@@ -60,11 +60,11 @@ def reject_payments_above_limit(proposed_refund: ProposedRefund, limit: int):
 def main(customer_email: str):
     with open("inbox.txt", "w") as f:
         f.write(customer_email)
-
+    print("Wrote inbox.txt")    
     config = Config.from_default(default_log_level="INFO")
 
     tools = DefaultToolRegistry(config=config)
-
+    print("Loaded default tools")
     tools.with_tool_description(
         "portia:mcp:mcp.stripe.com:create_refund",
         "The amount should be provided in cents without any decimal points, e.g 10.00 should be 1000. \
@@ -188,14 +188,14 @@ if __name__ == "__main__":
         "--request",
         type=str,
         required=False,
-        default="I bought one of your hoverboards 3 days ago. "
+        default="I bought one of your hoverboards today days ago. "
         "When I took it out of the box and turned it on, "
         "it did not work. Please can I get a refund?",
     )
 
     args = parser.parse_args()
     main(f"""---header---
-        From: Marty McFly <email: {args.email}>
+        From: Manoj Sharma <email: {args.email}>
         To: support@hoverfly.com
         Subject: Refund request
         ---header---
@@ -204,5 +204,5 @@ if __name__ == "__main__":
         {args.request}
 
         Thanks,
-        Marty McFly
+        Manoj Sharma
         ---body---""")
