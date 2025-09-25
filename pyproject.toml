@@ -3,10 +3,12 @@ name = "refund-agent-mcp"
 version = "0.1.0"
 description = "Refund Agent leveraging the Portia integration with Stripe"
 authors = [
-    { name = "Portia AI", email = "hello@portialabs.ai" }
+    { name = "Manoj", email = "sharmalearner4@gmail.com" }
 ]
+package-mode = false
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
+
 
 dependencies = [
     "dotenv>=0.9.9,<0.10.0",
